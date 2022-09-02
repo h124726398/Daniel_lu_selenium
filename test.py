@@ -1,10 +1,9 @@
-from cmath import e
-import imp
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 import time,getpass,configparser,math
 from PIL import Image
@@ -37,46 +36,59 @@ while(login):
         time.sleep(5)
 
         # click design
-        driver.find_element(By.XPATH, "//*[@id=\"home-action-design\"]/div[2]/div/a[1]")
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"home-action-design\"]/div[2]/div/a[1]"))).click()
-        # click space_zone
+        # click add_space_button
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[2]/button"))).click()
 
         # add_sapce
         space_name = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/input")))
         # space_name = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/input")
         space_description = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[2]/input")
-        space_name_input = "test"
-        space_description_input = "test"
+        space_name_input = "test2"
+        space_description_input = "test2"
         space_name.send_keys(space_name_input)
         space_description.send_keys(space_description_input)
         time.sleep(5)
         # click add_button
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[3]/button[2]"))).click()
-        time.sleep(5)
+        time.sleep(3)
         # click new space
-        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div"))).click()
-        time.sleep(5)
+        title = WebDriverWait(driver,5).until(EC.visibility_of_all_elements_located((By.XPATH,"//h2[contains(@class,'card-pf-title')]")))
+        for number, data in enumerate(title, start=1):
+            print("nu", number)
+            print("data", data.text)
+            if data.text == space_name_input:
+                WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div[%s]/div" % number))).click()
+                break
 
-        # click import pj
+        # click import_pj_button
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/div/div/div[3]/button[2]"))).click()
         # import pj
         repository_url = driver.find_element(By.XPATH, "//*[@id=\"panel-id\"]/div/div/div[2]/div/div[2]/input")
         repository_url_input = 'https://github.com/kanic1111/cc-limit-approval-app-step1'
         repository_url.send_keys(repository_url_input)
-        time.sleep(5)
-        # click import
+        time.sleep(3)
+        # click import_button
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"panel-id\"]/div/div/div[3]/button[2]"))).click()
-
         # click pj
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/div[2]/div/div/div"))).click()
         # click ok buttom
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div[1]/div/div[2]/button[2]"))).click()
-        # click deploy
-        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"deployBtn\"]"))).click()
+        # click deploy_button
+        time.sleep(3)
+        WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.ID, 'deploy'))).click()
 
+        # create action chain object
+        # element = driver.find_element(By.ID, ("deploy"));
+        # actions = ActionChains(driver)
+        # actions.moveToElement(element).click().build().perform();
+        print("outside")
+        time.sleep(3)
         print(driver.current_url)
     except Exception as e:
         print("Exception", e)
         print(driver.current_url)
 driver.close()
+
+# def delete_space():
+    # heading = driver.find_element_by_tag_name('h5')
