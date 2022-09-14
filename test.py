@@ -1,4 +1,3 @@
-from tabnanny import check
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -53,8 +52,8 @@ while(login):
         space_name = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/input")))
         # space_name = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/input")
         space_description = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[2]/input")
-        space_name_input = "test15"
-        space_description_input = "test15"
+        space_name_input = "test18"
+        space_description_input = "test18"
         space_name.send_keys(space_name_input)
         space_description.send_keys(space_description_input)
         time.sleep(5)
@@ -79,34 +78,21 @@ while(login):
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"panel-id\"]/div/div/div[3]/button[2]"))).click()
         # click pj
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/div[2]/div/div/div"))).click()
-        # click ok buttom
+        # click ok button
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div[1]/div/div[2]/button[2]"))).click()
         # click deploy_button
         time.sleep(5)
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.ID, 'deploy'))).click()
         time.sleep(3)
+
+        # get to module name
+        module_name = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[4]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div[1]/div/div[1]").text
+        # waited deploy successful
         while(True):
-            # 法1 有bug
-            # state_exist2 = is_element_present(By.XPATH, "/html/body/div[7]/div/table/tbody/tr[2]/td[2]/div/div")
-            # time.sleep(3)
-            # if state_exist2 == True:
-            #     print("inside")
-            #     data = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.XPATH, "/html/body/div[7]/div/table/tbody/tr[2]/td[2]/div/div"), 'Deploy to server configuration successful and container successfully updated.'))
-            #     print("data", data)
-            #     time.sleep(3)
-            #     if data == True:
-            #         break
-            # 法2
-            # state_exist2 = is_element_present(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div/div[3]/div/div[2]/div/div/table/tbody")
             data = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div/div[3]/div/div[2]/div/div/table/tbody").text
-        # for i in data:
-            print("data", data)
-            time.sleep(10)
-            # data = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div/div[3]/div/div[2]/div/div/table/tbody"), "Build of module 'kafka-drools-test' (requested by admin) completed.Build: SUCCESSFUL"))
-            if "Build of module 'kafka-drools-test' (requested by admin) completed. Build: SUCCESSFUL" in data:
-                print("inside")
+            time.sleep(3)
+            if "Build of module '{module_name}' (requested by admin) completed. Build: SUCCESSFUL".format(module_name=module_name) in data:
                 time.sleep(3)
-                print(driver.current_url)
                 driver.close()
                 break
     except Exception as e:
