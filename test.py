@@ -14,6 +14,10 @@ options = webdriver.ChromeOptions()
 config = configparser.ConfigParser()
 config.read('config.ini')
 pic_number = 0
+account = config["data"]["ACCOUNT"]
+password = config["data"]["PASSWORD"]
+space_name_input = config["data"]["SPACE_NAME_INPUT"]
+space_description_input = config["data"]["SPACE_DESCRIPTION_INPUT"]
 
 options.use_chromium = True
 options.add_experimental_option("excludeSwitches", ['enable-automation', 'enable-logging'])
@@ -35,8 +39,6 @@ while(login):
     try:
         inputname = driver.find_element(By.XPATH, "//*[@id=\"login-content\"]/form/fieldset/input[1]")
         inputpassword = driver.find_element(By.XPATH, "//*[@id=\"login-content\"]/form/fieldset/input[2]")
-        account = "admin"
-        password = "admin"
         inputname.send_keys(account)
         inputpassword.send_keys(password)
         inputname.submit()
@@ -50,10 +52,7 @@ while(login):
 
         # add_sapce
         space_name = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/input")))
-        # space_name = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/input")
         space_description = driver.find_element(By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[2]/input")
-        space_name_input = "test18"
-        space_description_input = "test18"
         space_name.send_keys(space_name_input)
         space_description.send_keys(space_description_input)
         time.sleep(5)
