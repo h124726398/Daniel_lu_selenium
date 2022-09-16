@@ -1,3 +1,2 @@
 # ignore chromedriver.exe
-
-ignore chromedriver.exe
+chromedriver.exe
