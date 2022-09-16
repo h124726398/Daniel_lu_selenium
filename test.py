@@ -14,17 +14,21 @@ options = webdriver.ChromeOptions()
 config = configparser.ConfigParser()
 config.read('config.ini')
 pic_number = 0
-account = config["data"]["ACCOUNT"]
-password = config["data"]["PASSWORD"]
-space_name_input = config["data"]["SPACE_NAME_INPUT"]
-space_description_input = config["data"]["SPACE_DESCRIPTION_INPUT"]
+
+service_url = config["URL"]["SERVICE_URL"]
+repository_url_input = config["URL"]["REPOSITORY_URL_INPUT"]
+account = config["CREATE_INFO"]["ACCOUNT"]
+password = config["CREATE_INFO"]["PASSWORD"]
+space_name_input = config["CREATE_INFO"]["SPACE_NAME_INPUT"]
+space_description_input = config["CREATE_INFO"]["SPACE_DESCRIPTION_INPUT"]
+
 
 options.use_chromium = True
 options.add_experimental_option("excludeSwitches", ['enable-automation', 'enable-logging'])
 
 driver = webdriver.Chrome(options=options, executable_path='./chromedriver')
 login = 1
-driver.get("http://10.20.1.21:8080/business-central")
+driver.get(service_url)
 driver.maximize_window()
 
 
@@ -70,7 +74,6 @@ while(login):
         WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[4]/div[2]/div/div[3]/div/div[11]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/div[2]/div/div/div[3]/button[2]"))).click()
         # import pj
         repository_url = driver.find_element(By.XPATH, "//*[@id=\"panel-id\"]/div/div/div[2]/div/div[2]/input")
-        repository_url_input = 'https://github.com/kanic1111/cc-limit-approval-app-step1'
         repository_url.send_keys(repository_url_input)
         time.sleep(3)
         # click import_button
