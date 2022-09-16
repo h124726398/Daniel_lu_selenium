@@ -10,7 +10,7 @@ from PIL import Image
 
 
 options = webdriver.ChromeOptions()
-#options.add_argument('--headless')
+options.add_argument('--headless')
 config = configparser.ConfigParser()
 config.read('config.ini')
 pic_number = 0
